@@ -16,18 +16,9 @@ def minimumSwaps(arr):
     Swap max to the last position
     Swap min to starting position
 
-
-    2(a).  Match case and find odd one out
-    3(a). Max([underdered digits])
-    4(a). Min([underdered digits])
-    5(a). Swap max to the last position
-    6(a). Swap min to starting position
-
-    2(a).  Match case and find odd one out
-    3(a). Max([underdered digits])
-    4(a). Min([underdered digits])
-    5(a). Swap max to the last position
-    6(a). Swap min to starting position
+    parameters:-
+    arr : the unsorted array
+    return : minimum number of swaps
     '''
     sortedData = sorted(arr)
     flag = True
