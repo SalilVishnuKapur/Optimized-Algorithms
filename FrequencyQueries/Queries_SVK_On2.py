@@ -5,6 +5,7 @@ import os
 import random
 import re
 import sys
+from array import array
 
 # Complete the freqQuery function below.
 def freqQuery(queries):
@@ -14,7 +15,7 @@ def freqQuery(queries):
     return : 1 if an element with frequency occurs 0 if not
     '''
     dic = {}
-    output = []
+    dic['Chief'] = array('i')
     for item in queries:
         if(item[0] == 1):
             if item[1] not in dic:
@@ -24,12 +25,14 @@ def freqQuery(queries):
         elif(item[0] == 2):
             if item[1] in dic:
                 dic[item[1]] -= 1
+                if(dic[item[1]] == 0):
+                    del dic[item[1]]
         else:
-            if(item[1] in dic.values()):
-                output.append(1)
+            if(item[1] in set(dic.values())):
+                dic['Chief'].append(1)
             else:
-                output.append(0)        
-    return output
+                dic['Chief'].append(0)        
+    return dic['Chief']
 
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
@@ -47,3 +50,4 @@ if __name__ == '__main__':
     fptr.write('\n')
 
     fptr.close()
+
