@@ -1,35 +1,44 @@
 #!/bin/python3
 
-import math
 import os
-import random
-import re
 import sys
 
-# Complete the freqQuery function below.
+
+def operation1(dic, word, dic_c):
+    if (word in dic) and (dic[word] in dic_c):
+        #if dic_c[dic[word]] > 0:
+        dic_c[dic[word]] -= 1
+    dic[word] = dic.get(word, 0) + 1
+    dic_c[dic[word]] = dic_c.get(dic[word], 0) + 1
+    return dic, dic_c
+
+def operation2(dic, word, dic_c):
+    if word in dic:
+        if dic[word] > 0:
+            #if dic_c[dic[word]] > 0:
+            dic_c[dic[word]] -= 1
+            dic[word] -= 1
+            dic_c[dic[word]] = dic_c.get(dic[word], 0) + 1
+    return dic, dic_c
+    
+def operation3(arr, freq, dic_c):
+    arr.append(dic_c.get(freq, 0) > 0)
+    return arr
+
 def freqQuery(queries):
-    '''
-    param:
-    queries : the different tuple commands
-    return : 1 if an element with frequency occurs 0 if not
-    '''
+    arr = []
     dic = {}
-    output = []
-    for item in queries:
-        if(item[0] == 1):
-            if item[1] not in dic:
-                dic[item[1]] = 1
-            else:
-                dic[item[1]] += 1
-        elif(item[0] == 2):
-            if item[1] in dic:
-                dic[item[1]] -= 1
+    dic_c = {}
+    for command, word in queries:
+        if(command == 1):
+            dic, dic_c = operation1(dic, word, dic_c)
+        elif(command == 2):
+            dic, dic_c = operation2(dic, word, dic_c)
         else:
-            if(item[1] in dic.values()):
-                output.append(1)
-            else:
-                output.append(0)        
-    return output
+            arr = operation3(arr, word, dic_c)
+    return map(int, arr)
+        
+    
 
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')

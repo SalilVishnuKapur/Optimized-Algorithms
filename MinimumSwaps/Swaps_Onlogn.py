@@ -5,60 +5,72 @@ import os
 import random
 import re
 import sys
-    
-# Complete the minimumSwaps function below.
-def minimumSwaps(arr): 
+
+def minimumSwaps(n, arr): 
     '''
     Create a sorted list
     Match case and find odd one out
-    Max([underdered digits])
-    Min([underdered digits])
+    Max([unordered digits])
+    Min([unordered digits])
     Swap max to the last position
     Swap min to starting position
 
-    parameters:-
-    arr : the unsorted array
-    return : minimum number of swaps
+
+    2(a).  Match case and find odd one out
+    3(a). Max([underdered digits])
+    4(a). Min([underdered digits])
+    5(a). Swap max to the last position
+    6(a). Swap min to starting position
+
+    2(a).  Match case and find odd one out
+    3(a). Max([underdered digits])
+    4(a). Min([underdered digits])
+    5(a). Swap max to the last position
+    6(a). Swap min to starting position
+    Modified Algo :-
+    1. Read the data and create 2 dictionaries
+    2. Do min and max and swap and note
     '''
-    sortedData = sorted(arr)
-    flag = True
+    
     swaps = 0
-    while flag:
-        unMatchDic = {}
-        # Match case and find odd one out
-        for val, itr in zip(arr, range(len(arr))):
-            if(val != sortedData[itr]):
-                unMatchDic[val] = itr
-                
-        if unMatchDic == {}:
-            flag = False
+    dic = {}
+    dic_c = {}
+    for val, itr in zip(arr, range(n)):
+            if itr + 1 != val:
+                dic[val] = itr
+                dic_c[itr] = val
+    
+    
+    while len(dic) > 1:
+        targetVal = min(dic)
+        targetIndex = min(dic_c)
+        
+        if(len(dic) == 2 and dic[targetVal] == targetIndex):
+            break
+        elif(len(dic) == 2):
+            swaps += 1
             break
         
-        if len(unMatchDic) != 2 :
-            swaps = swaps++2
+        if(dic[targetVal] != targetIndex):
+            tempIndex = dic[targetVal]
+            #dic[targetVal] = targetIndex
+            dic[dic_c[targetIndex]] = dic[targetVal]
+
+            tempValue = dic_c[targetIndex]
+            #dic_c[targetIndex] = targetVal
+            dic_c[tempIndex] = dic_c[targetIndex]
+            
+            if dic[tempValue] == tempIndex + 1:
+                del dic[tempValue]
+                del dic_c[tempIndex]
+            del dic[targetVal]
+            del dic_c[targetIndex]
+            swaps += 1
         else:
-            swaps = swaps++1
-        # Max([undordered digits])
-        maxVal = max(unMatchDic.keys())
-
-        # Min([undordered digits])
-        minVal = min(unMatchDic.keys())
-
-        # Swap max to the last position
-        temp = arr[max(unMatchDic.values())]
-        arr[max(unMatchDic.values())] = maxVal
-        arr[unMatchDic[maxVal]] = temp
-        miniTemp = unMatchDic[maxVal]
-        unMatchDic[maxVal] = unMatchDic[temp]
-        unMatchDic[temp] = miniTemp
-        
-        if(len(unMatchDic) != 2 ):
-            # Swap min to starting position
-            temp = arr[min(unMatchDic.values())]
-            arr[min(unMatchDic.values())] = minVal
-            arr[unMatchDic[minVal]] = temp
-
-    return swaps
+            del dic[targetVal]
+            del dic_c[targetIndex]
+            
+    return swaps  
     
     
 if __name__ == '__main__':
@@ -68,10 +80,8 @@ if __name__ == '__main__':
 
     arr = list(map(int, input().rstrip().split()))
     
-    res = minimumSwaps(arr)
+    res = minimumSwaps(n, arr)
 
     fptr.write(str(res) + '\n')
 
     fptr.close()
-
-
